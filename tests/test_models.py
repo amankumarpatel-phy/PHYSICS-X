@@ -52,7 +52,7 @@ class QuantumTests(unittest.TestCase):
         width = 1.0e-9
         x = np.linspace(0.0, width, 10001)
         psi = stationary_wavefunction(width, 3, x)
-        self.assertAlmostEqual(float(np.trapezoid(np.abs(psi) ** 2, x)), 1.0, places=5)
+        self.assertAlmostEqual(float(np.sum((np.abs(psi[:-1]) ** 2 + np.abs(psi[1:]) ** 2) * np.diff(x) / 2.0)), 1.0, places=5)
 
 
 class CrystalTests(unittest.TestCase):
