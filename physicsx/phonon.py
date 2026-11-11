@@ -48,7 +48,10 @@ def diatomic_chain_dispersion(
             dtype=complex,
         )
         eigenvalues = np.linalg.eigvalsh(dynamical_matrix)
-        # Tiny negative values can arise from floating-point round-off at Gamma.
+        # The translational acoustic mode is exactly zero at Gamma. Enforce
+        # that analytical result to avoid loss of precision in the determinant.
+        if wavevector == 0.0:
+            eigenvalues[0] = 0.0
         eigenvalues = np.maximum(eigenvalues, 0.0)
         frequencies = np.sqrt(eigenvalues)
         acoustic[index], optical[index] = frequencies
