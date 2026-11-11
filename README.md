@@ -10,17 +10,18 @@
 
 ## Project status
 
-**Early development — v0.3.0**
+**Early development — v0.4.0**
 
-The current release contains five interactive laboratories:
+The current release contains six interactive laboratories:
 
 - **Mechanics Lab:** axial stress, engineering strain, elongation, factor of safety, and an explicitly idealized stress–strain visualization.
 - **Quantum Lab:** energy spectrum and stationary wavefunctions of a one-dimensional infinite square well.
 - **Crystal Lab:** simple cubic, body-centred cubic, and face-centred cubic unit-cell coordinates, packing fraction, and theoretical density.
 - **Phonon Lab:** acoustic and optical dispersion branches and a sampled phonon density of states for a one-dimensional diatomic chain.
 - **Reciprocal Space Lab:** SC, BCC, FCC and HCP geometry; Miller-plane sections; reciprocal-lattice points; a Wigner–Seitz construction of the first Brillouin zone; and a simplified powder XRD pattern.
+- **Optical Spectroscopy Lab:** Drude–Lorentz dielectric response, complex refractive index, absorption coefficient, coherent thin-film R/T/A, optical conductivity and a finite-window Kramers–Kronig diagnostic.
 
-The crystallography extension uses a 2π reciprocal-lattice convention. The XRD engine assumes equal atomic form factors and Gaussian peak broadening; it is intended for teaching and algorithm development, not quantitative phase identification.
+The optical module is a parameterized model, not an electronic-structure calculation or experimental material database. The XRD engine assumes equal atomic form factors and Gaussian peak broadening; it is intended for teaching and algorithm development, not quantitative phase identification.
 
 These modules are educational and exploratory tools. They are not substitutes for validated engineering design software, experimental measurements, or peer-reviewed numerical workflows.
 
@@ -56,18 +57,21 @@ PHYSICS-X/
 │   ├── 2_Quantum_Lab.py
 │   ├── 3_Crystal_Lab.py
 │   ├── 4_Phonon_Lab.py
-│   └── 5_Reciprocal_Space_Lab.py
+│   ├── 5_Reciprocal_Space_Lab.py
+│   └── 6_Optical_Spectroscopy_Lab.py
 ├── physicsx/
 │   ├── __init__.py
 │   ├── mechanics.py
 │   ├── quantum.py
 │   ├── crystal.py
 │   ├── crystal_advanced.py
-│   └── phonon.py
+│   ├── phonon.py
+│   └── optics.py
 ├── tests/
 │   ├── test_models.py
 │   ├── test_phonon.py
-│   └── test_crystal_advanced.py
+│   ├── test_crystal_advanced.py
+│   └── test_optics.py
 ├── .github/workflows/
 │   └── tests.yml
 ├── .streamlit/
@@ -79,14 +83,15 @@ PHYSICS-X/
 
 ## Scientific conventions
 
-- SI units are used internally wherever practical.
-- Inputs and outputs are labelled with units.
-- Simplifying assumptions are stated alongside each model.
-- The stress–strain curve in Mechanics Lab is a configurable illustrative bilinear engineering model, not a universal material law.
-- The Quantum Lab uses the analytic non-relativistic infinite-well solution.
-- The Crystal Lab assumes ideal bulk unit cells and uses conventional-cell definitions for SC, BCC, and FCC.
-- The Phonon Lab uses a harmonic, one-dimensional diatomic chain with two atoms per primitive cell and equal nearest-neighbour springs. Its DOS is a sampled histogram normalized to two modes per primitive cell.
-- The Reciprocal Space Lab uses row-wise direct and reciprocal basis vectors satisfying aᵢ·bⱼ = 2πδᵢⱼ. Its XRD pattern uses equal atomic form factors, structure-factor intensities, summed reciprocal-grid multiplicities and Gaussian broadening. Corrections for realistic atomic scattering, Debye–Waller effects, absorption and instrument response are not yet included.
+- SI units are used internally for optical conductivity, wavelength, absorption and layer thickness; UI inputs are clearly labelled.
+- The optical dielectric model is expressed in photon-energy units E = ℏω and uses the exp(−iωt) convention:
+  ε(E) = ε∞ − Ep²/(E² + iΓD E) + Σ fⱼEp²/(E₀ⱼ² − E² − iΓⱼE).
+- Passive optical constants use the refractive-index branch n ≥ 0 and k ≥ 0. The absorption coefficient is α = 4πk/λ₀.
+- Thin-film R/T/A is a coherent, normal-incidence, single-layer transfer-matrix calculation between lossless incident and substrate media. The substrate is semi-infinite.
+- Optical conductivity is calculated as σ(ω) = −iε₀ω[ε(ω) − ε∞].
+- The Kramers–Kronig display is a finite-window numerical principal-value estimate. Spectral tails outside the selected energy interval are omitted; it is a diagnostic rather than an exact infinite-range reconstruction.
+- The Phonon Lab uses a harmonic one-dimensional diatomic chain with two atoms per primitive cell and equal nearest-neighbour springs.
+- The Reciprocal Space Lab uses row-wise direct and reciprocal basis vectors satisfying aᵢ·bⱼ = 2πδᵢⱼ. Its XRD pattern uses equal atomic form factors and Gaussian broadening.
 
 ## Roadmap
 
@@ -98,10 +103,13 @@ PHYSICS-X/
 - [x] Miller-plane sections and reciprocal-lattice visualization
 - [x] First Brillouin-zone Wigner–Seitz construction
 - [x] Simplified powder XRD pattern generation
+- [x] Drude–Lorentz optical spectra and complex optical constants
+- [x] Coherent thin-film R/T/A and complex optical conductivity
+- [x] Finite-window Kramers–Kronig diagnostic
 - [x] Unit tests and GitHub Actions continuous integration
 - [ ] Full 3D lattice dynamics with realistic force constants
 - [ ] Atomic form-factor library and quantitative diffraction refinements
-- [ ] Spectroscopy and optical response tools
+- [ ] Measured-spectrum fitting and material parameter provenance
 - [ ] Nanophotonics simulation interfaces
 - [ ] Reproducible report export
 - [ ] Carefully validated machine-learning workflows
