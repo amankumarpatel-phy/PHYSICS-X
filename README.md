@@ -77,7 +77,7 @@ PHYSICS-X/
 - [x] Mechanics: axial loading and idealized stress–strain model
 - [x] Quantum: 1D infinite square well
 - [x] Crystallography: SC, BCC, FCC unit cells
-- [ ] Automated tests and continuous integration
+- [x] Unit tests and GitHub Actions continuous integration
 - [ ] Materials data import and provenance tracking
 - [ ] Spectroscopy and lattice-dynamics tools
 - [ ] Nanophotonics simulation interfaces
@@ -90,7 +90,7 @@ Issues, reproducible bug reports, scientific corrections, and pull requests are 
 
 ## License
 
-This project is intended to be released under the Apache License 2.0. A license file will be added with the first tagged release.
+Released under the Apache License 2.0. See [LICENSE](LICENSE) for details.
 
 ---
 
