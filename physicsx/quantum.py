@@ -33,4 +33,8 @@ def stationary_wavefunction(
     psi[inside] = np.sqrt(2.0 / width_m) * np.sin(
         n * np.pi * x[inside] / width_m
     )
+    # Enforce the infinite-wall boundary condition exactly; sin(n*pi) can
+    # otherwise leave a small floating-point residual at x = L.
+    psi[x == 0.0] = 0.0
+    psi[x == width_m] = 0.0
     return psi
